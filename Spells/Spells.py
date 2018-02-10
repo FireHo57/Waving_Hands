@@ -1,0 +1,2 @@
+allowed_gestures = "->SDFWPsdfwpc"
+
