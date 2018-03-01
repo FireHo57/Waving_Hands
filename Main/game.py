@@ -1,7 +1,7 @@
 from player import player as p
 
 
-class game:
+class Game:
 
     def __init__(self):
         self.player_list=dict()
@@ -17,10 +17,16 @@ class game:
         else:
             target.take_damage(damage)
 
+    def get_player(self,name):
+        return self.player_list.get(name,None)
 
-if __name__=="__main__":
-    new_game=game()
+
+if __name__ == "__main__":
+    new_game = Game()
     new_game.add_player(p.player("player1"))
-    new_game.do_damage_to_player("null player",5)
+    new_game.do_damage_to_player("null player", 5)
     new_game.do_damage_to_player("player1", 5)
+    player = new_game.get_player("player1")
+    if player is not None:
+        player.set_shield(True)
     new_game.do_damage_to_player("player1", 5)
