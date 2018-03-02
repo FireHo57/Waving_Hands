@@ -37,6 +37,30 @@ class SummonIceElemental(object):
     def global_effect(self,game):
         game.summon_ice_elemental()
 
+class SummonFireElemental(object):
+
+    def __init__(self):
+        self.name="Summon Ice Elemental"
+
+    def cast(self,target,caster):
+        cast_text(target,caster,self.name)
+        # no targeted effect
+        return self.global_effect
+
+    def global_effect(self,game):
+        game.summon_fire_elemental()
+
+class MagicMirror(object):
+
+    def __init__(self):
+        self.name="Magic Mirror"
+
+    def cast(self,target,caster):
+        cast_text(target,caster,self.name)
+        target.set_magic_mirror(True)
+        # no global effect
+        return None
+
 class MagicMissile(object):
 
     def __init__(self):
@@ -45,4 +69,7 @@ class MagicMissile(object):
     def cast(self, target, caster):
         cast_text(caster, target, self.name)
         target.take_damage(1)
+        return None
+
+    #no global effect
 
