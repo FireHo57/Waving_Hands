@@ -23,7 +23,7 @@ class Game:
 
 if __name__ == "__main__":
     new_game = Game()
-    new_game.add_player(p.player("player1"))
+    new_game.add_player(p.Player("player1"))
     new_game.do_damage_to_player("null player", 5)
     new_game.do_damage_to_player("player1", 5)
     player = new_game.get_player("player1")
