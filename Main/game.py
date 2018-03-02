@@ -1,10 +1,11 @@
 from player import player as p
-
+from spells import SpellController as sc
 
 class Game:
 
-    def __init__(self):
+    def __init__(self,spell_controller):
         self.player_list=dict()
+        self.spell_controller=spell_controller
 
     def add_player(self,player):
         self.player_list[player.name]=player
@@ -22,8 +23,17 @@ class Game:
 
 
 if __name__ == "__main__":
-    new_game = Game()
+    spell_controller=sc.SpellController()
+    spell=spell_controller.check_spells("SD")
+
+    new_game = Game(spell_controller)
     new_game.add_player(p.Player("player1"))
+    new_game.add_player(p.Player("player2"))
+
+
+    spell.cast(new_game.get_player("player1"),new_game.get_player("player2"))
+
+
     new_game.do_damage_to_player("null player", 5)
     new_game.do_damage_to_player("player1", 5)
     player = new_game.get_player("player1")
