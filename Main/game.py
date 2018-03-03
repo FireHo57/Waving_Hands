@@ -36,11 +36,19 @@ class Game:
 
             spell_left = self.spell_controller.check_spells(player.left_hand)
             spell_right = self.spell_controller.check_spells(player.right_hand)
-            if spell_left != None:
-                print(spell_left.name)
-            if spell_right != None:
-                print(spell_right.name)
 
+            # get a target
+            target_string = ""
+            for i in self.player_list:
+                target_string += i + ","
+            print("Available Targets: {}".format(target_string))
+
+            if spell_left is not None:
+                target = input("Select Target for {}: ".format(spell_left.name))
+                spell_left.cast(self.player_list[target], player)
+            if spell_right is not None:
+                target = input("Select Target for {}: ".format(spell_right.name))
+                spell_right.cast(self.player_list[target], player)
 
 
 if __name__ == "__main__":

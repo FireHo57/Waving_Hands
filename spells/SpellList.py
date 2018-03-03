@@ -112,5 +112,5 @@ class Shield(object):
 
     def cast(self, target, caster):
         cast_text(caster, target, self.name)
-        target.set_sheild(True)
+        target.set_shield(True)
         return None
