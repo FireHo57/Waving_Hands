@@ -22,33 +22,38 @@ class Game:
     def get_player(self, name):
         return self.player_list.get(name, None)
 
+    # gets the player to update
+    def get_player_gestures(self,name):
+        left_hand = input("{}'s left hand: ".format(name))
+        right_hand = input("{}'s right hand: ".format(name))
+        player = self.player_list[name]
+        player.make_left_gesture(left_hand)
+        player.make_right_gesture(right_hand)
+        print("{}\n{}".format(player.left_hand, player.right_hand))
+
+    def resolve_spells(self,player):
+        spell_left = self.spell_controller.check_spells(player.left_hand)
+        spell_right = self.spell_controller.check_spells(player.right_hand)
+
+        # get a target
+        target_string = ""
+        for i in self.player_list:
+            target_string += i + ","
+        print("Available Targets: {}".format(target_string))
+
+        if spell_left is not None:
+            target = input("Select Target for {}: ".format(spell_left.name))
+            spell_left.cast(self.player_list[target], player)
+        if spell_right is not None:
+            target = input("Select Target for {}: ".format(spell_right.name))
+            spell_right.cast(self.player_list[target], player)
+
     def next_turn(self):
 
         # get players to make turns
         for name in self.player_list:
-
-            left_hand = input("{}'s left hand: ".format(name))
-            right_hand = input("{}'s right hand: ".format(name))
-            player = self.player_list[name]
-            player.make_left_gesture(left_hand)
-            player.make_right_gesture(right_hand)
-            print("{}\n{}".format(player.left_hand, player.right_hand))
-
-            spell_left = self.spell_controller.check_spells(player.left_hand)
-            spell_right = self.spell_controller.check_spells(player.right_hand)
-
-            # get a target
-            target_string = ""
-            for i in self.player_list:
-                target_string += i + ","
-            print("Available Targets: {}".format(target_string))
-
-            if spell_left is not None:
-                target = input("Select Target for {}: ".format(spell_left.name))
-                spell_left.cast(self.player_list[target], player)
-            if spell_right is not None:
-                target = input("Select Target for {}: ".format(spell_right.name))
-                spell_right.cast(self.player_list[target], player)
+            self.get_player_gestures(name)
+            self.resolve_spells(name)
 
 
 if __name__ == "__main__":
