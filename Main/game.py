@@ -1,5 +1,15 @@
 from player import player as p
-from spells import SpellController as sc
+from spells import SpellController as Sc
+from enum import *
+
+
+class GlobalEffects(Flag):
+    ICE_ELEMENTAL = auto()
+    FIRE_ELEMENTAL = auto()
+    FIRE_STORM = auto()
+    ICE_STORM = auto()
+    DISPEL_MAGIC = auto()
+    NO_FLAGS = auto()
 
 
 class Game:
@@ -7,6 +17,7 @@ class Game:
     def __init__(self, spell_controller):
         self.player_list = dict()
         self.spell_controller = spell_controller
+        self.effects = GlobalEffects.NO_FLAGS
 
     def add_player(self, player):
         self.player_list[player.name] = player
@@ -23,7 +34,7 @@ class Game:
         return self.player_list.get(name, None)
 
     # gets the player to update
-    def get_player_gestures(self,name):
+    def get_player_gestures(self, name):
         left_hand = input("{}'s left hand: ".format(name))
         right_hand = input("{}'s right hand: ".format(name))
         player = self.player_list[name]
@@ -31,7 +42,7 @@ class Game:
         player.make_right_gesture(right_hand)
         print("{}\n{}".format(player.left_hand, player.right_hand))
 
-    def resolve_spells(self,player):
+    def resolve_spells(self, player):
         spell_left = self.spell_controller.check_spells(player.left_hand)
         spell_right = self.spell_controller.check_spells(player.right_hand)
 
@@ -48,6 +59,10 @@ class Game:
             target = input("Select Target for {}: ".format(spell_right.name))
             spell_right.cast(self.player_list[target], player)
 
+    def resolve_global_effects(self):
+        if self.effects == GlobalEffects.FIRE_STORM:
+            print("Oh no everything is on fire")
+
     def next_turn(self):
 
         # get players to make turns
@@ -55,9 +70,10 @@ class Game:
             self.get_player_gestures(name)
             self.resolve_spells(name)
 
+        self.resolve_global_effects()
 
 if __name__ == "__main__":
-    spell_controller = sc.SpellController()
+    spell_controller = Sc.SpellController()
     spell = spell_controller.check_spells("SD")
 
     new_game = Game(spell_controller)
@@ -65,5 +81,3 @@ if __name__ == "__main__":
     new_game.add_player(p.Player("player2"))
 
     new_game.next_turn()
-
-
