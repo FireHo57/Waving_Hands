@@ -27,7 +27,7 @@ class DispelMagic(object):
         game.dispel_magic()
 
 
-# Elementals of opposite types cancel each other out. Yhey are also destroyed by elemental storms
+# Elementals of opposite types cancel each other out. They are also destroyed by elemental storms
 
 # Summons an Ice elemental, this is treated as a global effect as elementals attack everyone
 class SummonIceElemental(object):
@@ -84,7 +84,7 @@ class LightningBolt(object):
 
 class CureHeavyWounds(object):
 
-    def __init__self(self):
+    def __init__(self):
         self.name = "Cure Heavy Wounds"
 
     def cast(self, target, caster):
@@ -92,7 +92,81 @@ class CureHeavyWounds(object):
         target.heal(2)
         target.cure_disease()
 
+        
+class CureLightWound(object):
+    
+    def __init__(self):
+        self.name = "Cure Light Wounds"
+        
+    def cast(self, target, caster):
+        cast_text(target, caster, self.name)
+        target.heal(1)
+        
+  
+class Blindness(object):
 
+class Amnesia(object):
+    
+class Confusion(object):
+
+class Disease(object):
+    
+class DelayEffect(object):
+    
+class Poison(object):
+    
+class Paralyisis(object):
+   
+class SummonTroll(object):
+    
+class Fireball(object):
+
+class Surrender(object):
+ 
+class RemoveEnchantment(object):
+
+class Invisibility(object):
+
+class CharmMonster(object):
+    
+class CharmPerson(object):
+    
+class SummonOgre(object):
+    
+class FingerOfDeath(object):
+    
+class Haste(object):
+
+class SummonGoblin(object):
+    
+class AntiSpell(object):
+    
+class Permanency(object):
+    
+class TimeStop(object):
+    
+class ResistCold(object):
+    
+class Fear(object):
+    
+class FireStorm(object):
+
+class ClapOfLightning(object):
+    
+class CauseLightWounds(object):
+    
+class SummonGiant(object):
+    
+class CauseHeavyWounds(object):
+    
+class CounterSpell(object):
+    
+class IceStorm(object):
+    
+class ResistHeat(object):
+    
+class Protection(object):
+    
 class MagicMissile(object):
 
     def __init__(self):
@@ -105,6 +179,8 @@ class MagicMissile(object):
 
     # no global effect
 
+    
+    
 class Shield(object):
 
     def __init__(self):
