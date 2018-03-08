@@ -58,7 +58,8 @@ class SummonFireElemental(object):
     def global_effect(self, game):
         game.summon_fire_elemental()
 
-
+        
+# creates a magic mirror on the target which reflects spells cast against the target back on the caster
 class MagicMirror(object):
 
     def __init__(self):
@@ -70,7 +71,8 @@ class MagicMirror(object):
         # no global effect
         return None
 
-
+    
+# fires a bolt of lightning at the target for 5 damage
 class LightningBolt(object):
 
     def __init__(self):
@@ -81,7 +83,8 @@ class LightningBolt(object):
         target.take_damage(5)
         return None
 
-
+    
+# restores 3 points of health to the target, also cures disease
 class CureHeavyWounds(object):
 
     def __init__(self):
@@ -91,8 +94,10 @@ class CureHeavyWounds(object):
         cast_text(target, caster, self.name)
         target.heal(2)
         target.cure_disease()
+        return None
 
-        
+    
+# as cure heavy wounds but restores 1 point of health      
 class CureLightWound(object):
     
     def __init__(self):
@@ -101,14 +106,59 @@ class CureLightWound(object):
     def cast(self, target, caster):
         cast_text(target, caster, self.name)
         target.heal(1)
-        
-  
+        return None
+    
+    
+# renders the target blind (unable to see opponenets chains, or hit opponents with spells) for 3 turns  
 class Blindness(object):
 
+    def __init__(self):
+        self.name = "Blindness"
+        
+    def cast(self, target, caster):
+        cast_text(target, caster, self.name)
+        target.set_blind(3)
+        return None
+
+    
+# warlocks with amnesia are forced to repeat the last set of gestures they made. Lasts 1 round
 class Amnesia(object):
     
-class Confusion(object):
+    def __init__(self):
+        self.name = "Amnesia"
+        
+    def cast(self, target, caster):
+        cast_text(target, caster, self.name)
+        target.set_amnesia(1)
+        return None
+    
 
+# Confusion causes a warlock to make a randomly selected gesture with one hand
+class Confusion(object):
+    
+    def __init__(self):
+        self.name = "Confusion"
+
+    def cast(self, target, caster):
+        cast_text(target, caster, self.name)
+        target.set_confusion(1)
+        return None
+    
+    
+# Maladroit
+class Maladroit(object):
+    
+    
+    def __init__(self):
+        self.name = "Maladroit"
+        
+    def cast(self, target, caster):
+        cast_text(target, caster, self.name)
+        target.set_maladroit(1)
+        return None
+    
+    
+# 
 class Disease(object):
     
 class DelayEffect(object):
