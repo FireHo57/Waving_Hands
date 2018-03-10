@@ -4,6 +4,7 @@
 # They have 2 functions, cast and global_effects
 # Cast deals with caster-target interaction then returns global effects to the game to be resolved
 
+from Monsters import MonsterFactory as mf
 
 # Helper function for printing spell stuff
 def cast_text(caster, target, spell_name):
@@ -158,16 +159,67 @@ class Maladroit(object):
         return None
     
     
-# 
+# inflicts disease upon the target. Unless dispelled byb Cure heavy wounds or dispel magic the warlock will die in
+# six turns
 class Disease(object):
-    
+
+    def __init__(self):
+        self.name = "Disease"
+
+    def cast(self, target, caster):
+        cast_text(target, caster, self.name)
+        target.set_diseased(True)
+        return None
+
+
+# Delay effect once cast can 'bank' a spell cast in the same turn or int the three subsequent turns following it's casting
+# this banked spell can be cast at any time by the warlock
 class DelayEffect(object):
-    
+
+    def __init__(self):
+        self.name = "Delay Effect"
+
+    def cast(self, target, caster):
+        cast_text(target, caster, self.name)
+        target.set_delay(3)
+        return None
+
+
+# As disease except the obly thing that cures poison is a dispel magic
 class Poison(object):
-    
+
+    def __init__(self):
+        self.name = "Posion"
+
+    def cast(self, target, caster):
+        cast_text(target, caster, self.name)
+        target.set_poisoned(True)
+        return None
+
+
+# Paralysis forces the target warlock to repeat the previous gesture on one hand (as selected by caster)
 class Paralyisis(object):
-   
+
+   def __init__(self):
+        self.name = "Paralysis"
+
+   def cast(self, target, caster):
+       cast_text(target, caster, self.name)
+       target.paralyse(caster.choose_hand())
+       return None
+
+
+# Summons a troll to serve the warlock the spell is targeted at
 class SummonTroll(object):
+
+    def __init__(self):
+        self.name = "Summon Troll"
+
+    def cast(self, target, caster):
+        cast_text(target, caster, self.name)
+        new_troll = mf.MonsterFactory.create_troll()
+        new_troll.set_owner(target)
+        return new_troll
     
 class Fireball(object):
 

@@ -1,0 +1,8 @@
+The input that classes in this package are required to handle is as follows:
+
+Assume that turns are passed one at a time and that input is onyl ever collected ona turn by turn basis.
+
+Each turn a warlock makes a left hand (LH) and right hand (RH) gesture.
+For each hand the warlock can select a spell to be cast with that hand and a target for that spell.
+Optionally a warlock can choose a creature that has already been summoned or is being summoned that turn to direct its
+attacks against a target
