@@ -24,6 +24,12 @@ class Monster(object):
     def set_owner(self, owner):
         self.owner = owner
 
+    def kill(self):
+        self.alive = False
+
+    def die(self):
+        game.output.print("{} dies!".format(self.name))
+
 
 class MonsterFactory(object):
 

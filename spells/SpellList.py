@@ -217,31 +217,151 @@ class SummonTroll(object):
 
     def cast(self, target, caster):
         cast_text(target, caster, self.name)
-        new_troll = mf.MonsterFactory.create_troll()
-        new_troll.set_owner(target)
-        return new_troll
-    
+        new_monster = mf.MonsterFactory.create_troll()
+        new_monster.set_owner(target)
+        return new_monster
+
+
+# Throws a fireball at target. Has no effect if target is heat resistant
 class Fireball(object):
 
+    def __init__(self):
+        self.name = "Fireball"
+
+    def cast(self, target, caster):
+        cast_text(target, caster, self.name)
+        target.take_damage(5)
+        return None
+
+
+# Surrender the warlock concedes the match to the remaining warlocks
 class Surrender(object):
- 
+
+    def __init__(self):
+        self.name = "Surrender"
+
+    def cast(self,caster,target):
+        # surrender has no cast text
+        caster.surrender()
+        return self.global_effect
+
+    def global_effect(self,game,caster):
+        return game.surrender(caster)
+
+
+# removes all enchantments currently in effect and acts as s shield for the target
 class RemoveEnchantment(object):
 
+    def __init__(self):
+        self.name = "Remove Enchantment"
+
+    def cast(self, caster, target):
+        cast_text(caster, target, self.name)
+        caster.set_shield()
+        return self.global_effect
+
+    def global_effect(self,game):
+        game.remove_enchantment()
+
+
+# Turns the target invisible for 3 rounds. During this time the caster is not a valid target for spells and
+# their gestures are invisible to other warlocks
 class Invisibility(object):
 
+    def __init__(self):
+        self.name = "Invisibility"
+
+    def cast(self, caster, target):
+        cast_text(caster, target, self.name )
+        caster.set_invisible(3)
+        return self.global_effect
+
+    def global_effect(self, game, caster):
+        game.set_invisible(game, caster, 3)
+
+
+# Charms the target monster into obeying caster
 class CharmMonster(object):
-    
+
+    def __init__(self):
+        self.name = "Charm Monster"
+
+    def cast(self, caster, target):
+        cast_text(caster, target, self.name)
+        try:
+            target.set_owner(caster)
+        except:
+            # this is probably because the target is a warlock
+            print("No effect")
+            # will need to convert this to use output properly
+            return None
+
+
+# Target is charmed into making the wrong gesture (as selected by caster)
 class CharmPerson(object):
-    
+
+    def __init__(self):
+        self.name = "Charm Person"
+
+    def cast(self, caster, target):
+        cast_text(caster, target, self.name)
+        try:
+            target.set_charmed(caster, 3)
+        except:
+            print("No effect")
+        return None
+
+
+# Summons an ogre to serve the caster
 class SummonOgre(object):
-    
+
+    def __init__(self):
+        self.name = "Summon Ogre"
+
+    def cast(self, caster, target):
+        cast_text(target, caster, self.name)
+        new_monster = mf.MonsterFactory.create_ogre()
+        new_monster.set_owner(target)
+        return new_monster
+
+# any warlock or monster hit by this instantly dies
 class FingerOfDeath(object):
-    
+
+    def __init__(self):
+        self.name = "Finger of Death"
+
+    def cast(self, caster, target):
+        cast_text(target, caster, self.name)
+        target.set_health(0)
+        return None
+
+
+#
 class Haste(object):
 
+# Summons a goblin to server the caster
 class SummonGoblin(object):
-    
+
+    def __init__(self):
+        self.name = "Summon Goblin"
+
+    def cast(self, caster, target):
+        cast_text(caster, target, self.name)
+        new_monster = mf.MonsterFactory.create_goblin()
+        new_monster.set_owner(target)
+        return new_monster
+
+
+# cancels any spells cast by the target on that turn and turns the targets gestures to '-'
 class AntiSpell(object):
+
+    def __init__(self):
+        self.name = "Anti-spell"
+
+    def cast(self, caster, target):
+        cast_text(caster, target, self.name)
+        target.antispell()
+        return None
     
 class Permanency(object):
     

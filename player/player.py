@@ -23,6 +23,8 @@ class Statuses(Flag):
     DISEASED = auto()
     POISONED = auto()
     NO_EFFECTS = auto()
+    ANTI_SPELL = auto()
+    SURRENDERED = auto()
 
 allowed_gestures = "DPSFWdpsfwc>-"
 
@@ -63,8 +65,33 @@ class Player:
     def heal(self, heal_sum):
         self.health += heal_sum
 
+    def set_invisible(self, turns):
+        self.turns_invisible = turns
+
     def cure_disease(self):
         self.status -= Statuses.DISEASED
+
+    def surrender(self):
+        self.status += Statuses.SURRENDERED
+
+    def anti_spell(self):
+        self.status+=Statuses.ANTI_SPELL
+
+    def turn(self):
+        # reset status effects
+        self.status = Statuses.NO_EFFECTS
+
+        # resolve ongoing status effects
+        self.turns_invisible-=1
+        self.turns_blind-=1
+        self.turns_poisoned+=1
+        self.turns_diseased+=1
+
+        if self.turns_invisible > 0:
+            self.status += Statuses.INVISIBILITY
+        if self.turns_blind > 0:
+            self.status += Statuses.BLINDNESS
+
 
     def make_left_gesture(self, gesture):
         if allowed_gestures.find(gesture) != -1:
