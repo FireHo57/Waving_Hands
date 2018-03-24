@@ -1,4 +1,4 @@
-from interface import InputData as id
+from Interface import InputData as id
 
 class CommandLine(object):
 

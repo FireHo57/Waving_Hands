@@ -149,7 +149,6 @@ class Confusion(object):
 # Maladroit
 class Maladroit(object):
     
-    
     def __init__(self):
         self.name = "Maladroit"
         
@@ -172,8 +171,8 @@ class Disease(object):
         return None
 
 
-# Delay effect once cast can 'bank' a spell cast in the same turn or int the three subsequent turns following it's casting
-# this banked spell can be cast at any time by the warlock
+# Delay effect once cast can 'bank' a spell cast in the same turn or int the three subsequent turns following it's
+# casting this banked spell can be cast at any time by the warlock
 class DelayEffect(object):
 
     def __init__(self):
@@ -240,12 +239,12 @@ class Surrender(object):
     def __init__(self):
         self.name = "Surrender"
 
-    def cast(self,caster,target):
+    def cast(self, caster, target):
         # surrender has no cast text
         caster.surrender()
         return self.global_effect
 
-    def global_effect(self,game,caster):
+    def global_effect(self, game, caster):
         return game.surrender(caster)
 
 
@@ -260,7 +259,7 @@ class RemoveEnchantment(object):
         caster.set_shield()
         return self.global_effect
 
-    def global_effect(self,game):
+    def global_effect(self, game):
         game.remove_enchantment()
 
 
@@ -272,7 +271,7 @@ class Invisibility(object):
         self.name = "Invisibility"
 
     def cast(self, caster, target):
-        cast_text(caster, target, self.name )
+        cast_text(caster, target, self.name)
         caster.set_invisible(3)
         return self.global_effect
 
@@ -324,6 +323,7 @@ class SummonOgre(object):
         new_monster.set_owner(target)
         return new_monster
 
+
 # any warlock or monster hit by this instantly dies
 class FingerOfDeath(object):
 
@@ -336,8 +336,12 @@ class FingerOfDeath(object):
         return None
 
 
-#
+# warlock speeds up for 3 rounds
 class Haste(object):
+
+    def __init__(self):
+        self.name = "Haste"
+
 
 # Summons a goblin to server the caster
 class SummonGoblin(object):
@@ -362,33 +366,116 @@ class AntiSpell(object):
         cast_text(caster, target, self.name)
         target.antispell()
         return None
-    
+
+
+# permanency puts a three turn timer on, any spell cast by the warlock during that time can be made permanent
 class Permanency(object):
-    
+
+    def __init(self):
+        self.name = "Permanency"
+
+    def cast(self, caster, target):
+        cast_text(caster, target, self.name)
+        target.permanency()
+        return None
+
+
+# Stops time for the target
 class TimeStop(object):
-    
+
+    def __init__(self):
+        self.name = "Time Stop"
+
+    def cast(self, caster, target):
+        cast_text(caster, target, self.name)
+        target.time_stop()
+        return self.global_effect(target)
+
+    def global_effect(self, game, target):
+        game.set_time_stop(target, 1)
+
+
+# Resist cold wysiwyg
 class ResistCold(object):
-    
+
+    def __init__(self):
+        self.name = "Resist  Cold"
+
+
+# Fear restricts the targets gesture set to W P and >
 class Fear(object):
-    
+
+    def __init__(self):
+        self.name = "Fear"
+
+
+# casts a fire storm that lasts a turn and does 5 damage to everything not fire immune
+# if an ice storm or ice elemental is cast on the same turn they cancel firestorm out and are destroyed
 class FireStorm(object):
 
+    def __init__(self):
+        self.name = "Fire Storm"
+
+
+# the target is hit by a bolt of lightning. Depending on how it's cast it can onyl be cast once
 class ClapOfLightning(object):
-    
+
+    def __init__(self):
+        self.name = "Clap of Lightning"
+
+
+# wounds appear over the targets body for 1 damage
 class CauseLightWounds(object):
-    
+
+    def __init__(self):
+        self.name = "Cause Light Wounds"
+
+
+# Summons a giant to serve the target
 class SummonGiant(object):
-    
+
+    def __init__(self):
+        self.name = "Summon Giant"
+
+
+# wounds appear over the targets body for 2 damage
 class CauseHeavyWounds(object):
-    
+
+    def __init__(self):
+        self.name = "Cause Heavy Wounds"
+
+
+# counters the effects of any spell cast upon the user that turn (except for finger of death)
+# also provides a shield and protection against elemental storms
 class CounterSpell(object):
-    
+
+    def __init__(self):
+        self.name = "Counter Spell"
+
+
+# Causes an Ice storm to blast through the circle doing 5 damage to anything that isn't cold immune
+# firestorms and fire elementals are destroyed ice elementals are carried away by the storm
 class IceStorm(object):
-    
+
+    def __init__(self):
+        self.name = "Ice Storm"
+
+
+# the target warlok becomes immune to heat based damage (fire storm, fire elemental and fireball)
 class ResistHeat(object):
-    
+
+    def __init__(self):
+        self.name = "Resist Heat"
+
+
+# Like shield except the effect lasts 3 rounds
 class Protection(object):
-    
+
+    def __init__(self):
+        self.name = "Protection"
+
+
+# Fires a magic missile at the target doing 1 damage
 class MagicMissile(object):
 
     def __init__(self):
