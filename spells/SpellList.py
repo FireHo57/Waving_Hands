@@ -401,12 +401,22 @@ class ResistCold(object):
     def __init__(self):
         self.name = "Resist  Cold"
 
+    def cast(self, caster, target):
+        cast_text(caster, target, self.name)
+        target.resist_cold()
+        return None
+
 
 # Fear restricts the targets gesture set to W P and >
 class Fear(object):
 
     def __init__(self):
         self.name = "Fear"
+
+    def cast(self, caster, target):
+        cast_text(caster, target, self.name)
+        target.fear()
+        return None
 
 
 # casts a fire storm that lasts a turn and does 5 damage to everything not fire immune
@@ -416,12 +426,24 @@ class FireStorm(object):
     def __init__(self):
         self.name = "Fire Storm"
 
+    def cast(self, caster, target):
+        cast_text(caster, target, self.name)
+        return self.global_effect
+
+    def global_effect(self, game):
+        game.firestorm()
+
 
 # the target is hit by a bolt of lightning. Depending on how it's cast it can onyl be cast once
 class ClapOfLightning(object):
 
     def __init__(self):
         self.name = "Clap of Lightning"
+
+    def cast(self, caster, target):
+        cast_text(caster, target, self.name)
+        target.take_damage(5)
+        return None
 
 
 # wounds appear over the targets body for 1 damage
@@ -430,6 +452,11 @@ class CauseLightWounds(object):
     def __init__(self):
         self.name = "Cause Light Wounds"
 
+    def cast(self, caster, target):
+        cast_text(caster, target, self.name)
+        target.take_damage(1)
+        return None
+
 
 # Summons a giant to serve the target
 class SummonGiant(object):
@@ -437,12 +464,23 @@ class SummonGiant(object):
     def __init__(self):
         self.name = "Summon Giant"
 
+    def cast(self, caster, target):
+        cast_text(caster, target, self.name)
+        new_monster = mf.MonsterFactory.create_goblin()
+        new_monster.set_owner(target)
+        return new_monster
+
 
 # wounds appear over the targets body for 2 damage
 class CauseHeavyWounds(object):
 
     def __init__(self):
         self.name = "Cause Heavy Wounds"
+
+    def cast(self, caster, target):
+        cast_text(caster, target, self.name)
+        target.take_damage(2)
+        return None
 
 
 # counters the effects of any spell cast upon the user that turn (except for finger of death)
@@ -452,6 +490,11 @@ class CounterSpell(object):
     def __init__(self):
         self.name = "Counter Spell"
 
+    def cast(self, caster, target):
+        cast_text(caster, target, self.name)
+        target.counter_spell()
+        return None
+
 
 # Causes an Ice storm to blast through the circle doing 5 damage to anything that isn't cold immune
 # firestorms and fire elementals are destroyed ice elementals are carried away by the storm
@@ -460,19 +503,35 @@ class IceStorm(object):
     def __init__(self):
         self.name = "Ice Storm"
 
+    def cast(self, caster, target):
+        cast_text(caster, target, self.name)
+        return self.global_effect
 
-# the target warlok becomes immune to heat based damage (fire storm, fire elemental and fireball)
+    def global_effect(self, game):
+        game.ice_storm()
+
+
+# the target warlock becomes immune to heat based damage (fire storm, fire elemental and fireball)
 class ResistHeat(object):
 
     def __init__(self):
         self.name = "Resist Heat"
 
+    def cast(self, caster, target):
+        cast_text(caster, target, self.name)
+        target.resist_heat()
+        return None
 
 # Like shield except the effect lasts 3 rounds
 class Protection(object):
 
     def __init__(self):
         self.name = "Protection"
+
+    def cast(self, caster, target):
+        cast_text(caster, target, self.name)
+        target.set_shield(3)
+        return None
 
 
 # Fires a magic missile at the target doing 1 damage

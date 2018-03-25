@@ -5,8 +5,6 @@ I'm eventually going to try writing a bot to play it which may or may not involv
 
 Stuff to do:
 
-finish spell list
-
 add status effects to warlocks
 
 add global effects to game
