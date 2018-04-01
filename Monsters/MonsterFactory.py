@@ -1,12 +1,22 @@
+from enum import Enum, auto
+
+
+class Elemental(Enum):
+    FIRE = auto()
+    ICE = auto()
+
+
 class Monster(object):
 
-    def __init__(self, name, health, damage):
+    def __init__(self, name, health, damage, elemental=None):
         self.name = name
         self.health = health
         self. damage = damage
         self.alive = True
-
-        #owner and target set as part of spell later
+        self.target = None
+        self.owner = None
+        if elemental:
+            self.elemental = elemental
 
     def set_target(self, target, setter):
         # check that the warlock owning the creature is the one giving it the orders
@@ -28,19 +38,31 @@ class Monster(object):
         self.alive = False
 
     def die(self):
-        game.output.print("{} dies!".format(self.name))
+        print("{} dies!".format(self.name))
 
 
 class MonsterFactory(object):
 
-    def create_goblin(self):
+    @staticmethod
+    def create_goblin():
         return Monster("Malodorous Goblin", 1, 1)
 
-    def create_ogre(self):
+    @staticmethod
+    def create_ogre():
         return Monster("Ugly Ogre", 2, 2)
 
-    def create_troll(self):
+    @staticmethod
+    def create_troll():
         return Monster("Cantankerous Troll", 3, 3)
 
-    def create_giant(self):
+    @staticmethod
+    def create_giant():
         return Monster("Deafening Giant", 4, 4)
+
+    @staticmethod
+    def create_ice_elemental():
+        return Monster("Ice Elemental", 5, 3, Elemental.ICE)
+
+    @staticmethod
+    def create_fire_elemental():
+        return Monster("Fire Elemental", 5, 3, Elemental.FIRE)
